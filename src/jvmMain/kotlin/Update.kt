@@ -1,0 +1,3 @@
+interface Update {
+    fun performUpdate()
+}

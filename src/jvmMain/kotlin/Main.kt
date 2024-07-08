@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import kotlin.reflect.KProperty
 
 @Composable
@@ -17,6 +19,7 @@ import kotlin.reflect.KProperty
 fun App() {
     var text by remember { mutableStateOf("Hello, World!") }
     val shipments = remember { mutableStateMapOf<String, TrackerViewHelper>() }
+
 //    MaterialTheme {
 //        Button(onClick = {
 //            text = "Hello, Desktop!"
@@ -37,8 +40,8 @@ Column {
         Button(onClick = {
             text = "Track Shipment"
             val helper = TrackerViewHelper()
-            helper.trackShipment(text1.toString())
-            shipments.put(text1, TrackerViewHelper())
+            helper.trackShipment(text1)
+            shipments[text1] = helper
         }) {
             Text("Track Shipment")
         }
@@ -46,8 +49,12 @@ Column {
     Column {
         shipments.forEach { obj ->
             DeletableCard(
-                text = obj.key,
-                onDelete = { shipments.remove(obj.key) }
+                text = obj.value.expectedShipmentDeliveryDate.toString(),
+                onDelete = {
+                    obj.value.stopTracking()
+                    shipments.remove(obj.key)
+
+                }
             )
 
 
@@ -103,8 +110,12 @@ fun DeletableCard(text: String, onDelete: () -> Unit) {
 }
 
 
-fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
-        App()
+fun main() = runBlocking {
+    async {TrackingSimulator.runSimulation()}
+
+    application {
+        Window(onCloseRequest = ::exitApplication) {
+            App()
+        }
     }
 }
