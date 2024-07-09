@@ -17,6 +17,7 @@ import kotlin.reflect.KProperty
 @Composable
 @Preview
 fun App() {
+    println("App is running now")
     var text by remember { mutableStateOf("Hello, World!") }
     val shipments = remember { mutableStateMapOf<String, TrackerViewHelper>() }
 
@@ -49,7 +50,7 @@ Column {
     Column {
         shipments.forEach { obj ->
             DeletableCard(
-                text = obj.value.expectedShipmentDeliveryDate.toString(),
+                text = obj.value.shipmentStatus,
                 onDelete = {
                     obj.value.stopTracking()
                     shipments.remove(obj.key)
@@ -92,19 +93,23 @@ fun DeletableCard(text: String, onDelete: () -> Unit) {
             .padding(vertical = 4.dp),
         elevation = 4.dp
     ) {
-        Box(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = text,
-                modifier = Modifier.padding(16.dp)
-            )
-            IconButton(
-                onClick = onDelete,
-                modifier = Modifier.align(Alignment.TopEnd)
+        Column {
+            Box(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Icon(Icons.Default.Close, contentDescription = "Delete")
+                Text(
+                    text = text,
+                    modifier = Modifier.padding(16.dp)
+                )
+                IconButton(
+                    onClick = onDelete,
+                    modifier = Modifier.align(Alignment.TopEnd)
+                ) {
+                    Icon(Icons.Default.Close, contentDescription = "Delete")
+                }
             }
+
+
         }
     }
 }

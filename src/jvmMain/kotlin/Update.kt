@@ -1,3 +1,3 @@
 interface Update {
-    fun performUpdate()
+    fun performUpdate(arguments: List<String>)
 }
