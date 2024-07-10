@@ -1,21 +1,7 @@
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.setValue
-import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
-import kotlin.reflect.KProperty
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import java.util.*
 
 class TrackerViewHelper : Observer {
 //    var shipmentId by mutableStateOf(shipment.id)
@@ -37,12 +23,11 @@ class TrackerViewHelper : Observer {
     var location by mutableStateOf("")
 
 
+    fun stopTracking() {
 
-    fun stopTracking()
-    {
-        println("Stopped tracking...")
-        println(this)
-        TrackingSimulator.removeSubscription(this)
+        TrackingSimulator.findShipment(shipmentId)?.removeSubscription(this)
+
+        //TrackingSimulator.removeSubscription(this)
     }
 
 
@@ -51,12 +36,12 @@ class TrackerViewHelper : Observer {
         // Call the thing to listen for shipments
         //Simulation.registerTracker(id, this)
 
-        println(this)
-        TrackingSimulator.addSubscription(this)
+       // TrackingSimulator.addSubscription(this)
         val shipment: Shipment? = TrackingSimulator.findShipment(id)
 
         if (shipment != null)
         {
+            shipment.addSubscription(this)
             println("Found shipment")
             this.setCard(shipment)
         }
@@ -64,13 +49,12 @@ class TrackerViewHelper : Observer {
 
     private fun setCard(shipment: Shipment)
     {
-        println("Setting card information")
         this.shipmentId = shipment.getId()
         this.shipmentUpdateHistory.clear()
         this.shipmentTotes.clear()
         for (item in shipment.getUpdateHistory())
         {
-            this.shipmentUpdateHistory.add("Shipment went from ${item.getPreviousStatus()} to ${item.getNewStatus()} at ${item.getTimeStamp()}." )
+            this.shipmentUpdateHistory.add("Shipment went from ${item.getPreviousStatus()} to ${item.getNewStatus()} at ${Date(item.getTimeStamp().toLong())}." )
         }
 
         for (item in shipment.getNotes())
@@ -84,13 +68,10 @@ class TrackerViewHelper : Observer {
     }
 
     override fun update(shipment: Shipment) {
-        println("recieved new update!")
 
         if (shipment.getId() == this.shipmentId)
         {
             this.setCard(shipment)
-            println("recieved new update!")
-
         }
 
     }

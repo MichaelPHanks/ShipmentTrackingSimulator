@@ -1,7 +1,7 @@
 class ShippingUpdate(
     private var previousStatus: String,
     private var newStatus: String,
-    private var timeStamp: String) {
+    private var timeStamp: Long) {
 
     fun getPreviousStatus(): String
     {
@@ -24,12 +24,12 @@ class ShippingUpdate(
         this.newStatus = newStatus
     }
 
-    fun getTimeStamp(): String
+    fun getTimeStamp(): Long
     {
         return this.timeStamp
     }
 
-    fun setTimeStamp(timeStamp: String)
+    fun setTimeStamp(timeStamp: Long)
     {
         this.timeStamp = timeStamp
     }

@@ -1,6 +1,5 @@
 class Create: Update {
     override fun performUpdate(arguments: List<String>) {
-        println("Creating shipment...")
         val shipment: Shipment? =  TrackingSimulator.findShipment(arguments[1])
 
         if (shipment == null)
@@ -11,5 +10,9 @@ class Create: Update {
         {
             throw IllegalArgumentException("Shipment already exists and cannot be created...")
         }
+    }
+
+    override fun validator(arguments: List<String>): Boolean {
+        TODO("Not yet implemented")
     }
 }
