@@ -42,7 +42,6 @@ class TrackerViewHelper : Observer {
         if (shipment != null)
         {
             shipment.addSubscription(this)
-            println("Found shipment")
             this.setCard(shipment)
         }
     }

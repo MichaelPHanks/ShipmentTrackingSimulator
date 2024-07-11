@@ -16,7 +16,7 @@ import java.util.Date
 @Composable
 @Preview
 fun App() {
-    println("App is running now")
+    //println("App is running now")
     var text by remember { mutableStateOf("Hello, World!") }
     val shipments = remember { mutableStateListOf<TrackerViewHelper>() }
 

@@ -21,7 +21,7 @@ class Shipment(
 //            println(item)
 //        }
         observers.remove(observer)
-        println("Removed subscription ${observers.size}")
+       // println("Removed subscription ${observers.size}")
 
     }
 
@@ -29,7 +29,7 @@ class Shipment(
         //println(observers.size)
         for (observer in observers)
         {
-            println("Notifying observer...")
+           // println("Notifying observer...")
             observer.update(shipment)
         }
     }
