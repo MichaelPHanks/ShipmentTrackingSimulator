@@ -26,6 +26,11 @@ kotlin {
             }
         }
         val jvmTest by getting
+        dependencies {
+            commonTestImplementation("org.jetbrains.kotlin:kotlin-test")
+        }
+
+
     }
 }
 
