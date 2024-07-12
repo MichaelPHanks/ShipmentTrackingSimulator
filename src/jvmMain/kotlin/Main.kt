@@ -1,5 +1,9 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -38,7 +42,7 @@ fun App() {
                 Text("Track Shipment")
             }
         }
-        Column {
+        Column (modifier = Modifier.verticalScroll(rememberScrollState())) {
             shipments.forEach { obj ->
                 DeletableCard(
                     trackerViewHelper = obj,
