@@ -1,10 +1,23 @@
 class Location: Update {
     override fun performUpdate(arguments: List<String>) {
+        if (arguments.size != 4)
+        {
+            throw IllegalArgumentException("Not enough arguments for creating shipment...")
+
+        }
         val shipment: Shipment? = TrackingSimulator.findShipment(arguments[1])
 
-        if (shipment != null && validator(arguments))
+        if (shipment != null)
         {
-            shipment.setCurrentLocation(arguments[3])
+            if (arguments[2].toLongOrNull() != null)
+            {
+                shipment.setCurrentLocation(arguments[3])
+
+            }
+        else
+            {
+                throw IllegalArgumentException("Could not parse time stamp(s)")
+            }
         }
         else
         {
@@ -12,7 +25,5 @@ class Location: Update {
         }
     }
 
-    override fun validator(arguments: List<String>): Boolean {
-        return arguments.size == 4
-    }
+
 }

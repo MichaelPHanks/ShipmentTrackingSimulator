@@ -5,9 +5,4 @@ interface Subject {
 
     fun notifyObservers(shipment: Shipment)
 
-
-   // var observers: MutableList<Observer>
-
-
-
 }

@@ -1,19 +1,18 @@
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import java.util.*
 
 class TrackerViewHelper : Observer {
-//    var shipmentId by mutableStateOf(shipment.id)
-    init {
 
-    }
-
+    var shipmentExists: Boolean = false
+        private set
     var shipmentId by mutableStateOf("")
         private set
-    var shipmentTotes by mutableStateOf(mutableListOf<String>())
+    var shipmentTotes = mutableStateListOf<String>()
         private set
-    var shipmentUpdateHistory by mutableStateOf(mutableListOf<String>())
+    var shipmentUpdateHistory = mutableStateListOf<String>()
         private set
     var expectedShipmentDeliveryDate by mutableStateOf("")
         private set
@@ -23,29 +22,28 @@ class TrackerViewHelper : Observer {
     var location by mutableStateOf("")
 
 
+    // Finds the existing shipment and removes itself from the subscriptions
     fun stopTracking() {
-
         TrackingSimulator.findShipment(shipmentId)?.removeSubscription(this)
-
-        //TrackingSimulator.removeSubscription(this)
     }
 
 
+    // Finds existing shipment and attempts to track it.
     fun trackShipment(id: String)
     {
-        // Call the thing to listen for shipments
-        //Simulation.registerTracker(id, this)
-
-       // TrackingSimulator.addSubscription(this)
         val shipment: Shipment? = TrackingSimulator.findShipment(id)
-
+        this.shipmentId = id
         if (shipment != null)
         {
             shipment.addSubscription(this)
             this.setCard(shipment)
+            shipmentExists = true
         }
+
+
     }
 
+    // This takes in the 'new' value of the card and sets everything
     private fun setCard(shipment: Shipment)
     {
         this.shipmentId = shipment.getId()
@@ -63,7 +61,16 @@ class TrackerViewHelper : Observer {
 
         this.shipmentStatus = shipment.getStatus()
         this.location = shipment.getCurrentLocation()
-        this.expectedShipmentDeliveryDate = shipment.getExpectedDeliveryDateTimeStamp().toString()
+        val time = shipment.getExpectedDeliveryDateTimeStamp()
+
+        if (time < 0)
+        {
+            this.expectedShipmentDeliveryDate = "--"
+        }
+        else
+        {
+            this.expectedShipmentDeliveryDate = shipment.getExpectedDeliveryDateTimeStamp().toString()
+        }
     }
 
     override fun update(shipment: Shipment) {

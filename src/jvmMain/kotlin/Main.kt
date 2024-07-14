@@ -20,7 +20,6 @@ import java.util.Date
 @Composable
 @Preview
 fun App() {
-    //println("App is running now")
     var text by remember { mutableStateOf("Hello, World!") }
     val shipments = remember { mutableStateListOf<TrackerViewHelper>() }
 
@@ -73,7 +72,7 @@ fun DeletableCard(trackerViewHelper: TrackerViewHelper, onDelete: () -> Unit) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = trackerViewHelper.shipmentId,
+                    text = "Tracking shipment: ${trackerViewHelper.shipmentId}",
                     modifier = Modifier.padding(16.dp)
                 )
 
@@ -87,11 +86,36 @@ fun DeletableCard(trackerViewHelper: TrackerViewHelper, onDelete: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text("Status: ${trackerViewHelper.shipmentStatus}")
-            Text("Location: ${trackerViewHelper.location}")
-            Text("Expected Delivery Date: ${Date(trackerViewHelper.expectedShipmentDeliveryDate.toLong())}")
-            Text("Notes: ${trackerViewHelper.shipmentTotes}")
-            Text("Updates: ${trackerViewHelper.shipmentUpdateHistory}")
+            if (!trackerViewHelper.shipmentExists)
+            {
+                Text("Shipment with id = ${trackerViewHelper.shipmentId} not found")
+            }
+            else {
+                Text("Status: ${trackerViewHelper.shipmentStatus}")
+                Text("Location: ${trackerViewHelper.location}")
+                if (trackerViewHelper.expectedShipmentDeliveryDate == "--")
+                {
+                    Text("Expected Delivery Date: --\n")
+                }
+                else
+                {
+                    Text("Expected Delivery Date: ${Date(trackerViewHelper.expectedShipmentDeliveryDate.toLong())}\n")
+                }
+
+                Text("Updates:")
+
+                for (item in trackerViewHelper.shipmentUpdateHistory)
+                {
+                    Text(item)
+                }
+
+
+                Text("\nNotes:")
+                for (item in trackerViewHelper.shipmentTotes)
+                {
+                    Text(item)
+                }
+            }
         }
     }
 }

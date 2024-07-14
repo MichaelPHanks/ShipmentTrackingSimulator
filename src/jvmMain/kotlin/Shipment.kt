@@ -15,21 +15,12 @@ class Shipment(
     }
 
     override fun removeSubscription(observer: Observer) {
-//        println(observer)
-//        for (item in observers)
-//        {
-//            println(item)
-//        }
         observers.remove(observer)
-       // println("Removed subscription ${observers.size}")
-
     }
 
     override fun notifyObservers(shipment: Shipment) {
-        //println(observers.size)
         for (observer in observers)
         {
-           // println("Notifying observer...")
             observer.update(shipment)
         }
     }
@@ -37,6 +28,8 @@ class Shipment(
 
     fun addNote(note: String) {
         this.notes.add(note)
+        notifyObservers(this)
+
     }
 
     fun addUpdate(update: ShippingUpdate) {
@@ -58,24 +51,17 @@ class Shipment(
         return this.id
     }
 
-//    fun setId(id: String) {
-//        this.id = id
-//    }
-
     fun getNotes(): MutableList<String> {
         return this.notes
     }
-
 
     fun getUpdateHistory(): MutableList<ShippingUpdate> {
         return this.updateHistory
     }
 
-
     fun getExpectedDeliveryDateTimeStamp(): Long {
         return this.expectedDeliveryDateTimeStamp
     }
-
     fun setExpectedDeliveryDateTimeStamp(expectedDeliveryDateTimeStamp: Long) {
         this.expectedDeliveryDateTimeStamp = expectedDeliveryDateTimeStamp
         notifyObservers(this)
@@ -84,8 +70,8 @@ class Shipment(
 
     fun getCurrentLocation(): String {
         return this.currentLocation
-    }
 
+    }
     fun setCurrentLocation(currentLocation: String) {
         this.currentLocation = currentLocation
         notifyObservers(this)
