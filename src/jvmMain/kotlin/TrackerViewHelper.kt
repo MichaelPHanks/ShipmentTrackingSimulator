@@ -10,7 +10,7 @@ class TrackerViewHelper : Observer {
         private set
     var shipmentId by mutableStateOf("")
         private set
-    var shipmentTotes = mutableStateListOf<String>()
+    var shipmentNotes = mutableStateListOf<String>()
         private set
     var shipmentUpdateHistory = mutableStateListOf<String>()
         private set
@@ -20,7 +20,7 @@ class TrackerViewHelper : Observer {
         private set
 
     var location by mutableStateOf("")
-
+        private set
 
     // Finds the existing shipment and removes itself from the subscriptions
     fun stopTracking() {
@@ -48,7 +48,7 @@ class TrackerViewHelper : Observer {
     {
         this.shipmentId = shipment.getId()
         this.shipmentUpdateHistory.clear()
-        this.shipmentTotes.clear()
+        this.shipmentNotes.clear()
         for (item in shipment.getUpdateHistory())
         {
             this.shipmentUpdateHistory.add("Shipment went from ${item.getPreviousStatus()} to ${item.getNewStatus()} at ${Date(item.getTimeStamp().toLong())}." )
@@ -56,7 +56,7 @@ class TrackerViewHelper : Observer {
 
         for (item in shipment.getNotes())
         {
-            this.shipmentTotes.add(item)
+            this.shipmentNotes.add(item)
         }
 
         this.shipmentStatus = shipment.getStatus()

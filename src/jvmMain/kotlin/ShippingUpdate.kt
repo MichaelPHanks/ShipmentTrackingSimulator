@@ -8,29 +8,29 @@ class ShippingUpdate(
         return this.previousStatus
     }
 
-    fun setPreviousStatus(prevStatus: String)
-    {
-        this.previousStatus = prevStatus
-
-    }
+//    fun setPreviousStatus(prevStatus: String)
+//    {
+//        this.previousStatus = prevStatus
+//
+//    }
 
     fun getNewStatus(): String
     {
         return this.newStatus
     }
 
-    fun setNewStatus(newStatus: String)
-    {
-        this.newStatus = newStatus
-    }
+//    fun setNewStatus(newStatus: String)
+//    {
+//        this.newStatus = newStatus
+//    }
 
     fun getTimeStamp(): Long
     {
         return this.timeStamp
     }
 
-    fun setTimeStamp(timeStamp: Long)
-    {
-        this.timeStamp = timeStamp
-    }
+//    fun setTimeStamp(timeStamp: Long)
+//    {
+//        this.timeStamp = timeStamp
+//    }
 }

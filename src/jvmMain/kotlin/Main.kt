@@ -111,7 +111,7 @@ fun DeletableCard(trackerViewHelper: TrackerViewHelper, onDelete: () -> Unit) {
 
 
                 Text("\nNotes:")
-                for (item in trackerViewHelper.shipmentTotes)
+                for (item in trackerViewHelper.shipmentNotes)
                 {
                     Text(item)
                 }

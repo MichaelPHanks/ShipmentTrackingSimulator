@@ -29,7 +29,6 @@ class Shipment(
     fun addNote(note: String) {
         this.notes.add(note)
         notifyObservers(this)
-
     }
 
     fun addUpdate(update: ShippingUpdate) {
@@ -44,7 +43,6 @@ class Shipment(
     fun setStatus(status: String) {
         this.status = status
         notifyObservers(this)
-
     }
 
     fun getId(): String {
@@ -65,12 +63,10 @@ class Shipment(
     fun setExpectedDeliveryDateTimeStamp(expectedDeliveryDateTimeStamp: Long) {
         this.expectedDeliveryDateTimeStamp = expectedDeliveryDateTimeStamp
         notifyObservers(this)
-
     }
 
     fun getCurrentLocation(): String {
         return this.currentLocation
-
     }
     fun setCurrentLocation(currentLocation: String) {
         this.currentLocation = currentLocation
