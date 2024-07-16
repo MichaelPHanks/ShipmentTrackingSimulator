@@ -2,7 +2,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class TestObserverPattern {
+class TestTrackerSubscription {
     // NOTE: Cannot run suspend function in kotlin tests
     // NOTE: The TrackingSimulator is a static class, testing this can be difficult
     // Just need to make sure that we are changing the shipment id that could or
@@ -11,10 +11,10 @@ class TestObserverPattern {
     @Test
     fun testTrackerViewHelperUpdated()
     {
-        val shipment = Shipment("1234", "created", mutableListOf(),  mutableListOf(), -1, "unknown")
+        val shipment = Shipment("1234678", "created", mutableListOf(),  mutableListOf(), -1, "unknown")
         val tracker = TrackerViewHelper()
         TrackingSimulator.addShipment(shipment)
-        tracker.trackShipment("1234")
+        tracker.trackShipment("1234678")
         assertTrue(tracker.shipmentExists)
         assertEquals("created", tracker.shipmentStatus)
         shipment.setStatus("shipped")
